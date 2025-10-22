@@ -70,8 +70,8 @@ def main():
 
     master_url = args.master_url
 
-    # Default S3 input path, unless overridden
-    input_path = args.input or f"s3a://{args.net_id}-assignment-spark-cluster-logs/data/raw/application_*/*.log"
+    # Default S3 input path, unless overridden 
+    input_path = args.input or f"s3a://{args.net_id}-assignment-spark-cluster-logs/data/application_*/*.log"
 
     counts_csv  = os.path.join(args.outdir, "problem1_counts.csv")
     sample_csv  = os.path.join(args.outdir, "problem1_sample.csv")
@@ -82,37 +82,29 @@ def main():
     spark = create_spark_session(master_url)
     logger.info("Reading logs from: %s", input_path)
 
-    # Read raw logs as text
     df_raw = spark.read.text(input_path)
 
-    # Parse fields; keep close to your original approach
     logs_parsed = df_raw.select(
-        # basic timestamp at start of line if present
         regexp_extract('value', r'^(\d{2}/\d{2}/\d{2} \d{2}:\d{2}:\d{2})', 1).alias('timestamp'),
         regexp_extract('value', LEVEL_REGEX, 1).alias('log_level'),
         regexp_extract('value', r'(?:INFO|WARN|ERROR|DEBUG)\s+([^:]+):', 1).alias('component'),
         col('value').alias('message')
     )
 
-    # Keep rows where a level was found
     df_lv = logs_parsed.filter(col("log_level") != "")
 
-    # Counts by level
     counts_df = df_lv.groupBy("log_level").agg(spark_count(lit(1)).alias("count"))
     by_level = {r["log_level"].upper(): int(r["count"]) for r in counts_df.collect()}
 
-    # Preferred ordering, then any extras alphabetically
     preferred = ["INFO", "WARN", "ERROR", "DEBUG"]
     ordered = OrderedDict((lvl, by_level.get(lvl, 0)) for lvl in preferred if lvl in by_level)
     for k in sorted(by_level.keys()):
         if k not in ordered:
             ordered[k] = by_level[k]
 
-    # Write counts CSV (small → fine to collect into pandas)
     pd.DataFrame([{"log_level": k, "count": v} for k, v in ordered.items()]) \
       .to_csv(counts_csv, index=False)
 
-    # Random sample of 10 (convert to pandas safely because it's tiny)
     (df_lv
         .select(col("message").alias("log_entry"), "log_level")
         .orderBy(rand())
@@ -120,7 +112,6 @@ def main():
         .toPandas()
         .to_csv(sample_csv, index=False))
 
-    # Summary text
     total_lines = df_raw.count()
     total_with_level = df_lv.count()
     unique_levels = len(ordered)

@@ -1,4 +1,4 @@
-Input path: s3a://ys1079-assignment-spark-cluster-logs/data/*/*.log
+Input path: s3a://ys1079-assignment-spark-cluster-logs/data/application_*/*.log
 Total log lines processed: 33,236,604
 Total lines with log levels: 27,411,407
 Unique log levels found: 3
