@@ -22,8 +22,6 @@ Steps:
 - Execution time ≈ 4–5 min per run.  
 - Adaptive query execution and coalesced output improved I/O efficiency.
 
----
-
 ## 2. Problem 2 – Cluster Usage & Visualization
 
 ### Approach
@@ -52,12 +50,12 @@ A single cluster handled > 90 % of all applications.
 ### Visualizations
 
 #### Applications per Cluster
-![Bar Chart – Applications per Cluster](problem2_bar_chart.png)
+![Bar Chart – Applications per Cluster](./data/output/problem2_bar_chart.png)
 
 - Shows extreme workload imbalance — one cluster dominates usage.
 
 #### Duration Distribution (Cluster 1485248649253)
-![Density Plot – Job Durations](problem2_density_plot.png)
+![Density Plot – Job Durations](./data/output/problem2_density_plot.png)
 
 - Most jobs finish within 10–1000 s; a few long-tail outliers exceed 10 000 s.
 
@@ -81,9 +79,9 @@ A single cluster handled > 90 % of all applications.
 
 
 ## Screenshots of Master UI
-![a06_P1_master_UIscreenshot.png](Master UI - Problem 1)
+![Master UI - Problem 1](a06_P1_master_UIscreenshot.png)
 
-![Node_UI_P2_screenshot.png](Master UI - Problem 2)
+![Master UI - Problem 2](Node_UI_P2_screenshot.png)
 
 ## Screenshots of Application UI
-![spark_UI_screenshot-problem2.png](Application UI)
+![Application UI](spark_UI_screenshot-problem2.png)
