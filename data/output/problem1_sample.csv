@@ -1,0 +1,11 @@
+log_entry,log_level
+17/06/09 16:01:39 INFO storage.BlockManager: Found block rdd_2491_25 locally,INFO
+17/06/09 22:04:04 INFO executor.Executor: Finished task 14.0 in stage 6770.0 (TID 272092). 2150 bytes result sent to driver,INFO
+17/06/06 21:58:11 INFO broadcast.TorrentBroadcast: Reading broadcast variable 351 took 7 ms,INFO
+17/06/09 20:56:58 INFO executor.Executor: Finished task 1.0 in stage 2328.0 (TID 93400). 2241 bytes result sent to driver,INFO
+"17/06/09 17:04:02 INFO storage.MemoryStore: Block broadcast_29 stored as values in memory (estimated size 10.5 KB, free 360.2 KB)",INFO
+17/06/09 12:09:41 INFO executor.Executor: Finished task 2.0 in stage 5943.0 (TID 238163). 2156 bytes result sent to driver,INFO
+17/06/09 10:29:05 INFO executor.CoarseGrainedExecutorBackend: Got assigned task 18959,INFO
+"17/06/08 17:42:04 INFO python.PythonRunner: Times: total = 38, boot = 16, init = 22, finish = 0",INFO
+17/06/10 15:23:06 INFO executor.Executor: Finished task 11.0 in stage 186.0 (TID 3731). 2156 bytes result sent to driver,INFO
+17/06/08 20:54:28 INFO storage.BlockManager: Found block rdd_19100_19 locally,INFO
