@@ -20,7 +20,9 @@ from pyspark.sql.types import IntegerType
 logging.basicConfig(level=logging.INFO, format="%(asctime)s,p%(process)s,{%(filename)s:%(lineno)d},%(levelname)s,%(message)s")
 logger = logging.getLogger(__name__)
 
-OUT_DIR = os.path.expanduser("~/spark-cluster")
+# OUT_DIR = os.path.expanduser("~/spark-cluster")
+OUT_DIR = Path.home() / "spark-cluster"     # == ~/spark-cluster run in spark-cluster as uv run python ~/problem2.py spark://$MASTER_PRIVATE_IP:7077 --net-id ys1079
+
 TIMELINE_CSV = OUT_DIR / "problem2_timeline.csv"
 CLUSTER_SUMMARY_CSV = OUT_DIR / "problem2_cluster_summary.csv"
 STATS_TXT = OUT_DIR / "problem2_stats.txt"
@@ -91,15 +93,7 @@ def save_single_csv_spark(df, path: Path):
         import pandas as pd
         pd.DataFrame(columns=df.columns).to_csv(path, index=False)
         return
-    
-    # tmp = Path(tempfile.mkdtemp(prefix="p2csv_"))
-    # (df.coalesce(1)
-    #    .write.mode("overwrite")
-    #    .option("header", True)
-    #    .csv(str(tmp)))
-    # part = next(tmp.glob("part-*.csv"))
-    # path.parent.mkdir(parents=True, exist_ok=True)
-    # shutil.move(str(part), str(path))
+
 
     tmp = Path(tempfile.mkdtemp(prefix="p2csv_"))
     (df.coalesce(1)

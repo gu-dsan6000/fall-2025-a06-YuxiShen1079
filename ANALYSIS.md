@@ -5,21 +5,22 @@
 ### Approach
 Parsed Spark container logs from  
 `s3a://ys1079-assignment-spark-cluster-logs/data/application_*/container_*.log`  
-to reconstruct per-application start and end times.  
+to reconstruct per-application start and end times.
+
 Steps:
 1. Extracted `application_id`, `cluster_id`, and `app_number` from file paths.  
 2. Parsed ISO (`YYYY-MM-DD HH:MM:SS`) and legacy (`YY/MM/DD HH:MM:SS`) timestamps with `try_to_timestamp`.  
 3. Computed each application’s start (`min(ts)`) and end (`max(ts)`) time.  
-4. Saved results as a single CSV.
+4. Saved results as a single CSV for further analysis.
 
 ### Findings
-- Processed **33M+ log lines**; 99.9% were INFO, <0.1% WARN/ERROR.  
-- Extracted valid timestamps for nearly all applications.  
-- System logs show stable execution and clean job completion.
+- Processed **~33 million** log lines:contentReference[oaicite:2]{index=2}.  
+- 99.9 % were INFO, 0.04 % WARN, 0.00 % ERROR — indicating clean job execution.  
+- Extracted valid timestamps for nearly all applications, confirming robust parsing.
 
 ### Performance
 - **3 workers × 2 cores (6 total)**, ~12 GiB memory.  
-- Execution time ≈ 4–5 min per run.  
+- Runtime about 4–5 min per run.  
 - Adaptive query execution and coalesced output improved I/O efficiency.
 
 ## 2. Problem 2 – Cluster Usage & Visualization
@@ -46,6 +47,9 @@ From `problem2_stats.txt`:
 | Others | ≤ 2 |
 
 A single cluster handled > 90 % of all applications.
+
+- The total execution time is about 20 minutes using uv run python ~/problem2.py spark://$MASTER_PRIVATE_IP:7077 --net-id ys1079
+- The execution time of running skipping spark cluster is about 2 minutes to generate the required png pictures. The command query is  uv run python ~/problem2.py --skip-spark, when running in spark-cluster
 
 ### Visualizations
 
@@ -74,7 +78,7 @@ A single cluster handled > 90 % of all applications.
 
 ### Spark Web UI Evidence
 ![Spark Master UI](a06_P1_master_UIscreenshot.png)
-![Problem 2 Spark UI](spark UI screenshot-problem2.png)
+![Problem 2 Spark UI](spark_UI_screenshot-problem2.png)
 ![Node Metrics](Node_UI_P2_screenshot.png)
 
 
