@@ -1,7 +1,6 @@
 # A06 Spark Cluster Log Analysis
 
 ## 1. Problem 1 – Application Timeline Extraction
-
 ### Approach
 Parsed Spark container logs from  
 `s3a://ys1079-assignment-spark-cluster-logs/data/application_*/container_*.log`  
